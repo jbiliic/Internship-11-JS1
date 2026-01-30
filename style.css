@@ -82,9 +82,10 @@ button:hover { background-color: #555; }
 
 #shift-button { background-color: #5e5ce6; }
 #calculate-button { background-color: var(--accent-color); grid-column: span 2; }
-#power-button { background-color: var(--danger); }
-
-/* OFF stanje */
+#power-button { 
+    background-color: var(--danger);
+    pointer-events: all !important;
+}
 .powered-off {
     filter: brightness(0.3);
     pointer-events: none;

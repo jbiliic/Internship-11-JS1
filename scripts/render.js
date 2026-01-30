@@ -1,21 +1,20 @@
 import operationList from './operations.js';
-import { state,setSelectedOperation } from './stateManager.js';
+import { state,setSelectedOperation,togglePower,toggleShift } from './stateManager.js';
 import { calculate } from './functionality.js';
 
 const render = (state) => {
     const main = document.querySelector('main');
     main.innerHTML = '';
-    
     const calculator = document.createElement('div');
     calculator.className = 'calculator';
 
     const ioArea = createIOArea();
     calculator.appendChild(ioArea);
 
-    const operationButtons = createOperationButtons(state);
+    const operationButtons = createOperationButtons(state, operationList);
     calculator.appendChild(operationButtons);
 
-    const constantButtons = createConstantButtons();
+    const constantButtons = createConstantButtons(state);
     calculator.appendChild(constantButtons);
 
     main.appendChild(calculator);
@@ -41,60 +40,25 @@ const createIOArea = () => {
     ioArea.appendChild(output);
     return ioArea;
 }
-const createOperationButtons = (state) => {
-    const defaultOps = operationList.default;;
-    const shiftedOps = operationList.shifted;
-
-    defaultOps.forEach(op => {
-        const button = document.createElement('button');
-        button.className = 'non-shift-button';
-        button.classList.add('operation-button');
-        button.textContent = op.face;
-    
-        button.addEventListener('click', () => {
-            setSelectedOperation(op);
-            button.classList.add('selected');
-            calculator.querySelectorAll('.operation-button').forEach(btn => btn.classList.remove('selected'));
-        });
-    });
-
-    shiftedOps.forEach(op => {
-        const button = document.createElement('button');
-        button.className = 'shift-button';
-        button.classList.add('operation-button');
-        button.textContent = op.face;
-        button.addEventListener('click', () => {
-            setSelectedOperation(op);
-            button.classList.add('selected');
-            calculator.querySelectorAll('.operation-button').forEach(btn => btn.classList.remove('selected'));
-        });
-    });
-    
+const createOperationButtons = (state,operationList) => {
     const container = document.createElement('div');
-    container.className = 'operation-buttons-container';
-
-    const allOps = [...operationList.default, ...operationList.shifted];
-
-    allOps.forEach(op => {
+    const currentButtons = state.isShifted ? operationList.shifted : operationList.default;
+    currentButtons.forEach(op => {
         const button = document.createElement('button');
-        button.className = op.shift ? 'operation-button shift-button' : 'operation-button non-shift-button';
-        
-        if (op.shift && !state.isShifted) button.classList.add('hidden');
-        if (!op.shift && state.isShifted) button.classList.add('hidden');
-
+        button.className = `operation-button ${state.isShifted ? 'on-shift-button' : 'non-shift-button'}`;
         button.textContent = op.face;
-        
         button.addEventListener('click', () => {
-            document.querySelectorAll('.operation-button').forEach(btn => btn.classList.remove('selected'));
+            if (!state.isOn) return;
             setSelectedOperation(op);
+            document.querySelectorAll('.operation-button').forEach(btn => btn.classList.remove('selected'));
             button.classList.add('selected');
         });
-
         container.appendChild(button);
     });
+    container.className = 'operation-buttons-container';
     return container; 
 }
-const createConstantButtons = () => {
+const createConstantButtons = (state) => {
     const calculateButton = document.createElement('button');
     calculateButton.id = 'calculate-button';
     calculateButton.textContent = '=';
@@ -108,7 +72,10 @@ const createConstantButtons = () => {
     shiftButton.id = 'shift-button';
     shiftButton.textContent = 'Shift';
     shiftButton.addEventListener('click', () => {
+        if (!state.isOn) return;
+
         toggleShift();
+        render(state);
     });
 
     const powerButton = document.createElement('button');
@@ -116,6 +83,7 @@ const createConstantButtons = () => {
     powerButton.textContent = 'On/Off';
     powerButton.addEventListener('click', () => {
         togglePower();
+        render(state);
     });
     const constantButtonsDiv = document.createElement('div');
     constantButtonsDiv.className = 'constant-buttons';
