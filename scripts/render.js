@@ -1,14 +1,14 @@
 import operationList from './operations.js';
 import { state,setSelectedOperation,togglePower,toggleShift } from './stateManager.js';
 import { calculate } from './functionality.js';
-
+import { History } from './history.js';
 const render = (state) => {
     const main = document.querySelector('main');
     main.innerHTML = '';
     const calculator = document.createElement('div');
-    calculator.className = 'calculator';
+    calculator.className = state.isOn ? 'calculator' : 'calculator powered-off';
 
-    const ioArea = createIOArea();
+    const ioArea = createIOArea(state);
     calculator.appendChild(ioArea);
 
     const operationButtons = createOperationButtons(state, operationList);
@@ -20,7 +20,7 @@ const render = (state) => {
     main.appendChild(calculator);
 
 }
-const createIOArea = () => {
+const createIOArea = (state) => {
     const ioArea = document.createElement('div');
     ioArea.className = 'io-area';
     const input1 = document.createElement('input');
@@ -34,6 +34,8 @@ const createIOArea = () => {
     input2.id = 'num2';
 
     const output = document.createElement('div');
+    if (!state.isOn) 
+        output.innerHTML = 'Turned Off';
     output.className = 'output-field';
     ioArea.appendChild(input1);
     ioArea.appendChild(input2);
@@ -63,9 +65,13 @@ const createConstantButtons = (state) => {
     calculateButton.id = 'calculate-button';
     calculateButton.textContent = '=';
     calculateButton.addEventListener('click', () => {
-        const res = calculate(state);
+        if (!state.isOn) return;
+        const hist = calculate(state);
         const output = document.querySelector('.output-field');
-        output.innerHTML = res;
+        output.innerHTML = hist.res;
+
+        if (hist.validate()) 
+            state.history.push(hist);
     });
 
     const shiftButton = document.createElement('button');
@@ -73,7 +79,6 @@ const createConstantButtons = (state) => {
     shiftButton.textContent = 'Shift';
     shiftButton.addEventListener('click', () => {
         if (!state.isOn) return;
-
         toggleShift();
         render(state);
     });

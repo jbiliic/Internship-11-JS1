@@ -17,9 +17,6 @@ const togglePower = () => {
         setSelectedOperation(null);
         clearHistory();
     }
-    else {
-        document.getElementById('calculator').classList.remove('powered-off');
-    }
 }
 const setSelectedOperation = (operation) => {
     state.selectedOperation = operation;

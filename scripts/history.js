@@ -5,5 +5,11 @@ class History {
         this.arg1 = arg1;
         this.arg2 = arg2;
     }
+    validate() {
+        if (this.res === "Error" || this.res.startsWith("Error")) {
+            return false;
+        }
+        return true;
+    }
 }
 export { History};

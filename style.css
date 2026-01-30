@@ -1,16 +1,19 @@
 :root {
-    --bg-color: #1a1a1a;
-    --calc-bg: #2d2d2d;
-    --text-color: #ffffff;
-    --accent-color: #ff9500;
-    --btn-color: #3d3d3d;
-    --danger: #ff3b30;
+    --bg-color: #050a14;
+    --calc-bg: #0d1b2a;
+    --display-bg: #010204;
+    --text-color: #e0e1dd;
+    --accent-blue: #00b4d8;
+    --btn-blue: #1b263b;
+    --btn-hover: #415a77;
+    --cyan-glow: #00fff2;
+    --danger-red: #780000;
 }
 
 body {
-    background-color: var(--bg-color);
+    background: radial-gradient(circle, #1b263b 0%, #050a14 100%);
     color: var(--text-color);
-    font-family: 'Segoe UI', sans-serif;
+    font-family: 'Segoe UI', Roboto, sans-serif;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -20,74 +23,103 @@ body {
 
 .calculator {
     background-color: var(--calc-bg);
-    padding: 20px;
-    border-radius: 20px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-    width: 320px;
+    padding: 30px; 
+    border-radius: 25px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 
+                inset 0 0 10px rgba(0, 180, 216, 0.2);
+    width: 400px; 
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    transition: all 0.5s ease;
 }
-
 .io-area {
-    margin-bottom: 20px;
+    margin-bottom: 25px;
+    border: 2px solid #1b263b;
+    border-radius: 12px;
+    overflow: hidden;
 }
-
 .input-field {
     width: 100%;
-    background: #000;
+    background: var(--display-bg);
     border: none;
-    color: #00ff00;
-    font-family: 'Courier New', monospace;
-    font-size: 1.2rem;
-    padding: 10px;
-    margin-bottom: 5px;
+    color: var(--accent-blue);
+    font-family: 'Consolas', monospace;
+    font-size: 1.5rem; /* Veći font */
+    padding: 15px;
     text-align: right;
     box-sizing: border-box;
+    outline: none;
 }
-
 .output-field {
-    background: #000;
-    color: #00ff00;
-    min-height: 40px;
-    padding: 10px;
+    background: var(--display-bg);
+    color: var(--cyan-glow);
+    min-height: 60px;
+    padding: 15px;
     text-align: right;
-    font-size: 1.5rem;
-    border-top: 1px solid #333;
+    font-size: 2.2rem; 
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(0, 255, 242, 0.5);
+    border-top: 1px solid #1b263b;
 }
 
 .operation-buttons-container, .constant-buttons {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
-    margin-top: 10px;
+    gap: 15px; 
+    margin-top: 15px;
 }
 
 button {
-    height: 50px;
-    border-radius: 10px;
+    height: 65px; 
+    border-radius: 12px;
     border: none;
-    background-color: var(--btn-color);
+    background-color: var(--btn-blue);
     color: white;
-    font-size: 1rem;
+    font-size: 1.2rem;
+    font-weight: 600;
     cursor: pointer;
-    transition: 0.2s;
+    transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 4px 0 #0a111f;
 }
 
-button:hover { background-color: #555; }
-
+button:hover {
+    background-color: var(--btn-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 0 #0a111f;
+}
+button:active {
+    transform: translateY(2px);
+    box-shadow: 0 0 0 #0a111f;
+}
 .selected {
-    background-color: var(--accent-color) !important;
-    font-weight: bold;
+    background-color: var(--accent-blue) !important;
+    box-shadow: 0 0 15px rgba(0, 180, 216, 0.6);
+    color: #fff;
+}
+#shift-button { background-color: #3a0ca3; }
+#calculate-button { 
+    background-color: var(--accent-blue); 
+    grid-column: span 2; 
+    color: #050a14;
+}
+#power-button { background-color: var(--danger-red); }
+
+.powered-off {
+    filter: grayscale(1) contrast(1.2) brightness(0.1);
+    transform: scale(0.98);
+    box-shadow: none;
+    pointer-events: none;
+    background-color: #050505;
+}
+
+.powered-off .output-field, 
+.powered-off .input-field {
+    color: transparent;
+    text-shadow: none;
+}
+#power-button { 
+    pointer-events: auto !important; 
+    filter: brightness(1.5) saturate(1.5);
+    opacity: 1 !important;
 }
 
 .hidden { display: none; }
-
-#shift-button { background-color: #5e5ce6; }
-#calculate-button { background-color: var(--accent-color); grid-column: span 2; }
-#power-button { 
-    background-color: var(--danger);
-    pointer-events: all !important;
-}
-.powered-off {
-    filter: brightness(0.3);
-    pointer-events: none;
-}
-#power-button { pointer-events: auto; }
