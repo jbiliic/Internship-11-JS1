@@ -74,11 +74,12 @@ const createConstantButtons = (state) => {
         const output = document.querySelector('.output-field');
         output.innerHTML = hist.res;
 
-        if (hist.validate()) 
+        if (hist.validate()){
             if(!state.selectedOperation.requires2)
                 hist.arg2 = undefined;
             state.history.push(hist);
             console.log(state.history);
+        }
     });
 
     const shiftButton = document.createElement('button');
