@@ -84,6 +84,8 @@ const createConstantButtons = (state) => {
     const shiftButton = document.createElement('button');
     shiftButton.id = 'shift-button';
     shiftButton.textContent = 'Shift';
+    if(state.isShifted)
+        shiftButton.classList.add('shifted');
     shiftButton.addEventListener('click', () => {
         if (!state.isOn) return;
         toggleShift();

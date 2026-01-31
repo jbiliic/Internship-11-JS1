@@ -97,6 +97,11 @@ button:active {
     color: #fff;
 }
 #shift-button { background-color: #3a0ca3; }
+.shifted {
+    background-color: var(--accent-blue) !important;
+    box-shadow: 0 0 15px rgba(0, 180, 216, 0.6);
+    color: #fff;
+}
 #calculate-button { 
     background-color: var(--accent-blue); 
     grid-column: span 2; 
