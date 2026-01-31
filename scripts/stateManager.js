@@ -16,7 +16,9 @@ const togglePower = () => {
     state.isOn = !state.isOn;
     if (!state.isOn) {
         state.isShifted = false;
+        state.historyVisible = false;
         setSelectedOperation(null);
+        setSearchInput('');
         clearHistory();
     }
 }
@@ -33,5 +35,8 @@ const toggleHistoryVisibility = () => {
     if (!state.isOn) return; 
     state.historyVisible = !state.historyVisible;
 }
+const setSearchInput = (input) => {
+    state.searchInput = input;
+}
 
-export { state, toggleShift, togglePower, setSelectedOperation, clearHistory, addToHistory, toggleHistoryVisibility };
+export { state, toggleShift, togglePower, setSelectedOperation, clearHistory, addToHistory, toggleHistoryVisibility, setSearchInput };

@@ -4,6 +4,7 @@ class History {
         this.res = res;
         this.arg1 = arg1;
         this.arg2 = arg2;
+        this.timestamp = new Date().toLocaleString();
     }
     validate() {
         const resStr = String(this.res);

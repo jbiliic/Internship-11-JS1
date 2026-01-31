@@ -9,7 +9,6 @@
     --cyan-glow: #00fff2;
     --danger-red: #780000;
 }
-
 body {
     background: radial-gradient(circle, #1b263b 0%, #050a14 100%);
     color: var(--text-color);
@@ -26,7 +25,6 @@ main {
     align-items: center;
     gap: 20px; 
 }
-
 .calculator {
     background-color: var(--calc-bg);
     padding: 30px; 
@@ -66,14 +64,12 @@ main {
     text-shadow: 0 0 10px rgba(0, 255, 242, 0.5);
     border-top: 1px solid #1b263b;
 }
-
 .operation-buttons-container, .constant-buttons {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     gap: 15px; 
     margin-top: 15px;
 }
-
 button {
     height: 65px; 
     border-radius: 12px;
@@ -86,7 +82,6 @@ button {
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 4px 0 #0a111f;
 }
-
 button:hover {
     background-color: var(--btn-hover);
     transform: translateY(-2px);
@@ -108,7 +103,6 @@ button:active {
     color: #050a14;
 }
 #power-button { background-color: var(--danger-red); }
-
 .powered-off {
     filter: grayscale(1) contrast(1.2) brightness(0.1);
     transform: scale(0.98);
@@ -116,7 +110,6 @@ button:active {
     pointer-events: none;
     background-color: #050505;
 }
-
 .powered-off .output-field, 
 .powered-off .input-field {
     color: transparent;
@@ -125,7 +118,7 @@ button:active {
 #power-button { 
     pointer-events: auto !important; 
     filter: brightness(1.5) saturate(1.5);
-    opacity: 1 !important;
+    opacity: 1;
 }
 .history-div {
     background-color: var(--calc-bg);
@@ -138,7 +131,6 @@ button:active {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     animation: fadeIn 0.4s ease-out;
 }
-
 .history-div h3 {
     color: var(--accent-blue);
     font-size: 1.1rem;
@@ -184,10 +176,47 @@ button:active {
 .history-div::-webkit-scrollbar-thumb:hover {
     background: var(--accent-blue);
 }
-
 @keyframes fadeIn {
     from { opacity: 0; transform: translateY(10px); }
     to { opacity: 1; transform: translateY(0); }
 }
-
+.history-div .search-container {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+.search-input {
+    flex: 1;
+    background: var(--display-bg);
+    border: 1px solid var(--btn-blue);
+    border-radius: 8px;
+    padding: 10px;
+    color: var(--cyan-glow);
+    font-family: 'Consolas', monospace;
+    outline: none;
+    transition: border 0.3s ease;
+}
+.search-input:focus {
+    border-color: var(--accent-blue);
+    box-shadow: 0 0 5px rgba(0, 180, 216, 0.3);
+}
+.search-input::placeholder {
+    color: #415a77;
+    font-size: 0.8rem;
+}
+.search-button {
+    height: auto;
+    padding: 0 15px;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    background-color: var(--btn-blue);
+    border: 1px solid var(--accent-blue);
+    box-shadow: none; 
+}
+.search-button:hover {
+    background-color: var(--accent-blue);
+    color: var(--bg-color);
+    box-shadow: 0 0 10px var(--accent-blue);
+}
 .hidden { display: none; }
