@@ -1,8 +1,10 @@
 let state = {
     isShifted: false,
+    historyVisible: false,
     isOn: true,
     selectedOperation: null,
-    history: []
+    history: [],
+    searchInput: ''
 };
 
 const toggleShift = () => {
@@ -27,4 +29,9 @@ const clearHistory = () => {
 const addToHistory = (entry) => {
     state.history.push(entry);
 }
-export { state, toggleShift, togglePower, setSelectedOperation, clearHistory, addToHistory };
+const toggleHistoryVisibility = () => {
+    if (!state.isOn) return; 
+    state.historyVisible = !state.historyVisible;
+}
+
+export { state, toggleShift, togglePower, setSelectedOperation, clearHistory, addToHistory, toggleHistoryVisibility };

@@ -6,7 +6,8 @@ class History {
         this.arg2 = arg2;
     }
     validate() {
-        if (this.res === "Error" || this.res.startsWith("Error")) {
+        const resStr = String(this.res);
+        if (resStr === "Error" || resStr.startsWith("Error")) {
             return false;
         }
         return true;

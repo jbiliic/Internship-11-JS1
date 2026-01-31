@@ -1,5 +1,5 @@
 import operationList from './operations.js';
-import { state,setSelectedOperation,togglePower,toggleShift } from './stateManager.js';
+import { state,setSelectedOperation,togglePower,toggleShift,toggleHistoryVisibility } from './stateManager.js';
 import { calculate } from './functionality.js';
 import { History } from './history.js';
 const render = (state) => {
@@ -18,6 +18,10 @@ const render = (state) => {
     calculator.appendChild(constantButtons);
 
     main.appendChild(calculator);
+
+    const historyDiv = createHistory(state);
+    if (historyDiv) 
+        main.appendChild(historyDiv);
 
 }
 const createIOArea = (state) => {
@@ -71,7 +75,10 @@ const createConstantButtons = (state) => {
         output.innerHTML = hist.res;
 
         if (hist.validate()) 
+            if(!state.selectedOperation.requires2)
+                hist.arg2 = undefined;
             state.history.push(hist);
+            console.log(state.history);
     });
 
     const shiftButton = document.createElement('button');
@@ -90,11 +97,35 @@ const createConstantButtons = (state) => {
         togglePower();
         render(state);
     });
+
+    const historyButton = document.createElement('button');
+    historyButton.id = 'history-button';
+    historyButton.textContent = 'History';
+    historyButton.addEventListener('click', () => {
+        if (!state.isOn) return;
+        toggleHistoryVisibility();
+        render(state);
+    });
+
     const constantButtonsDiv = document.createElement('div');
     constantButtonsDiv.className = 'constant-buttons';
     constantButtonsDiv.appendChild(calculateButton);
     constantButtonsDiv.appendChild(shiftButton);
     constantButtonsDiv.appendChild(powerButton);
+    constantButtonsDiv.appendChild(historyButton);
     return constantButtonsDiv;
+}
+const createHistory = (state) => {
+    if (!state.historyVisible) return null;
+    const historyDiv = document.createElement('div');
+    historyDiv.className = 'history-div';
+    historyDiv.innerHTML = '<h3>History</h3>';
+    state.history.forEach(entry => {
+        const entryDiv = document.createElement('div');
+        entryDiv.className = `history-entry ${state.isOn ? '' : 'powered-off'}`;
+        entryDiv.textContent = `${entry.operation.face} (${entry.arg1}, ${entry.arg2 === undefined ? '' : entry.arg2}) = ${entry.res}`;
+        historyDiv.appendChild(entryDiv);
+    });
+    return historyDiv;
 }
 export { render };
